@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Monument Viewer</string>
     <string name="user_text">User</string>
     <string name="pass_text">Password</string>
     <string name="button_log">Log In</string>
+
+    <string name="tv_monument">Monument</string>
+    <string name="monument_name"> Name </string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
 </resources>
