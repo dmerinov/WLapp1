@@ -22,10 +22,10 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     //that we're filling and assing it a setOnClickListener which is going to paint the monument name that we clicked.
     //Finally we paint the Image using the ImageView providing an URL
     fun bind(monument:Monument, context: Context){
-        monumentName.text= monument.Name
-        latitude.text=monument.Latitude.toString()
-        longitude.text=monument.Longitude.toString()
-        itemView.setOnClickListener(View.OnClickListener { Toast.makeText(context,monument.Name, Toast.LENGTH_SHORT).show() })
+        monumentName.text= monument.name
+        latitude.text=monument.latitude.toString()
+        longitude.text=monument.longitude.toString()
+        itemView.setOnClickListener(View.OnClickListener { Toast.makeText(context,monument.name, Toast.LENGTH_SHORT).show() })
         avatar.loadUrl(monument.photo)
     }
     fun ImageView.loadUrl(url: String){

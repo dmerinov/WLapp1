@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         if(password.equals("123456")) {
             result = "Correct"
             Toast.makeText(this@MainActivity, result, Toast.LENGTH_LONG).show()
-            val intent = Intent(this, list_elements_activity::class.java)
+            val intent = Intent(this, ListElementsActivity::class.java)
             startActivity(intent)
         } else {
             result = "Incorrect password. Try Again"

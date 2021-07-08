@@ -1,8 +1,11 @@
 package com.example.myapplication.Model
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Monument(
-    var Name:String,
-    var Latitude:String,
-    var Longitude:String,
-    var photo:String
-)
+    val name:String,
+    val latitude:String,
+    val longitude:String,
+    val photo:String
+) : Parcelable
