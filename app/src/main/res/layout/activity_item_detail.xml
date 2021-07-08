@@ -6,15 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".ItemDetailActivity">
 
-    <TextView
-        android:id="@+id/tv_detailex"
+    <ImageView
+        android:id="@+id/imageViewItemDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="409dp"
+        android:layout_height="473dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:paddingLeft="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Monumento" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3">
+
+        <TextView
+            android:id="@+id/tvMonumentDesc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            app:autoSizeTextType="none" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

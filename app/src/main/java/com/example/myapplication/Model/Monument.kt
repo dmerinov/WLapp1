@@ -7,5 +7,6 @@ data class Monument(
     val name:String,
     val latitude:String,
     val longitude:String,
-    val photo:String
+    val photo:String,
+    val textDetail:String
 ) : Parcelable
