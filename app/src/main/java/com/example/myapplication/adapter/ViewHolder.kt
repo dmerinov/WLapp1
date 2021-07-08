@@ -1,4 +1,4 @@
-package com.example.myapplication.Model
+package com.example.myapplication.adapter
 
 import android.content.Context
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.model.Monument
 import com.squareup.picasso.Picasso
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -21,7 +22,7 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     //this is going to be called by onBindViewHolder() so it can fill the data. Afterwards, we call itemView, which is the view (cell)
     //that we're filling and assing it a setOnClickListener which is going to paint the monument name that we clicked.
     //Finally we paint the Image using the ImageView providing an URL
-    fun bind(monument:Monument, context: Context){
+    fun bind(monument: Monument, context: Context){
         monumentName.text= monument.name
         latitude.text=monument.latitude.toString()
         longitude.text=monument.longitude.toString()

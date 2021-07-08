@@ -1,4 +1,4 @@
-package com.example.myapplication.Model
+package com.example.myapplication.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,15 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.myapplication.ItemDetailActivity
+import com.example.myapplication.activity.ItemDetailActivity
 import com.example.myapplication.R
+import com.example.myapplication.model.Monument
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_monument.view.*
 
 class MonumentAdapter (val monument:List<Monument>) :RecyclerView.Adapter<MonumentAdapter.MonumentHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MonumentAdapter.MonumentHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MonumentHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return MonumentHolder(layoutInflater.inflate(R.layout.item_monument,parent,false))
     }
@@ -27,7 +28,7 @@ class MonumentAdapter (val monument:List<Monument>) :RecyclerView.Adapter<Monume
     override fun getItemCount(): Int = monument.size
 
     class MonumentHolder (val view:View): RecyclerView.ViewHolder(view){
-        fun render(monument:Monument){
+        fun render(monument: Monument){
             view.tvMonument.text = monument.name
             view.tvLatitude.text = monument.latitude
             view.tvLongitude.text = monument.longitude

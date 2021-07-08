@@ -1,11 +1,12 @@
-package com.example.myapplication
+package com.example.myapplication.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.example.myapplication.Model.Monument
+import com.example.myapplication.R
+import com.example.myapplication.model.Monument
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 

@@ -1,10 +1,11 @@
-package com.example.myapplication
+package com.example.myapplication.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.Model.Monument
-import com.example.myapplication.Model.MonumentAdapter
+import com.example.myapplication.R
+import com.example.myapplication.model.Monument
+import com.example.myapplication.adapter.MonumentAdapter
 import kotlinx.android.synthetic.main.item_list_element.*
 
 class ListElementsActivity : AppCompatActivity(){
