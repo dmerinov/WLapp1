@@ -2,6 +2,8 @@ package com.example.myapplication.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
@@ -23,7 +25,14 @@ class LoginActivity : AppCompatActivity() {
 
     private fun registerListeners() {
         reset.setOnClickListener { resetFields() }
-        submit.setOnClickListener { validate(username.text.toString(),password.text.toString()) }
+        submit.setOnClickListener { validate(username.text.toString(), password.text.toString()) }
+
+        checkBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked)
+                password.transformationMethod = HideReturnsTransformationMethod.getInstance()
+            else
+                password.transformationMethod = PasswordTransformationMethod.getInstance()
+        }
     }
 
     private fun resetFields() {
@@ -31,12 +40,14 @@ class LoginActivity : AppCompatActivity() {
         password.setText("")
     }
 
+
     private fun validate(username: String, password: String) {
         if (username.equals(USER) && password.equals(PASSWORD)) {
             val intent = Intent(this, ListElementsActivity::class.java)
             startActivity(intent)
         } else {
-            Toast.makeText(this@LoginActivity, "Incorrect password. Try Again", Toast.LENGTH_LONG).show()
+            Toast.makeText(this@LoginActivity, "Incorrect password. Try Again", Toast.LENGTH_LONG)
+                .show()
         }
     }
 

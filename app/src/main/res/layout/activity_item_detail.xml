@@ -6,35 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".activity.ItemDetailActivity">
 
+
     <ImageView
         android:id="@+id/imageViewItemDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="409dp"
-        android:layout_height="473dp"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:paddingLeft="16dp"
+    <TextView
+        android:id="@+id/tvMonumentDesc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:textSize="18sp"
+        app:autoSizeTextType="none"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3">
+        android:scrollbars="vertical"
 
-        <TextView
-            android:id="@+id/tvMonumentDesc"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="24sp"
-            app:autoSizeTextType="none" />
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="0"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewItemDetail"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
