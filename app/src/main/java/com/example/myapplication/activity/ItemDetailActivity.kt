@@ -47,12 +47,7 @@ class ItemDetailActivity : AppCompatActivity() {
     }
 
     private fun paintItem(objectMonument: Monument) {
-        tvMonumentDesc.text = objectMonument.textDetail
+        tvMonumentDesc.text = objectMonument.description
         tvMonumentDesc.movementMethod = ScrollingMovementMethod()
-        imageViewItemDetail.loadUrl(objectMonument.photo)
-    }
-
-    private fun ImageView.loadUrl(url: String) {
-        Picasso.get().load(url).into(this)
     }
 }

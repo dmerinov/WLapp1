@@ -4,9 +4,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Monument(
-    val name:String,
-    val latitude:String,
-    val longitude:String,
-    val photo:String,
-    val textDetail:String
+    val id: Int,
+    val name: String,
+    val address: String,
+    val geocoordinates: String,
+    val description: String,
+    val contact: String
 ) : Parcelable

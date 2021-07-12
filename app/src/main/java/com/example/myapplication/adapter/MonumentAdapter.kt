@@ -32,9 +32,7 @@ class MonumentAdapter(val monument: List<Monument>) :
     class MonumentHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun render(monument: Monument) {
             view.Monument.text = monument.name
-            view.Latitude.text = monument.latitude
-            view.Longitude.text = monument.longitude
-            Picasso.get().load(monument.photo).into(view.iv_monument)
+            view.Latitude.text = monument.geocoordinates
 
             view.setOnClickListener {
                 //you have to provide intent with the context as within the listener the context get lost.
