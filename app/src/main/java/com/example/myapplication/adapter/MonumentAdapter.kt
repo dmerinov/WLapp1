@@ -9,10 +9,9 @@ import com.example.myapplication.R
 import com.example.myapplication.activity.ItemDetailActivity
 import com.example.myapplication.model.Monument
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_monument.view.*
 
-class MonumentAdapter(val monument: List<Monument>) :
+class MonumentAdapter(val monument: MutableList<Monument>) :
 
     RecyclerView.Adapter<MonumentAdapter.MonumentHolder>() {
 

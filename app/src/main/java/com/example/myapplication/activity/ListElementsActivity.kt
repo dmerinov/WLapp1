@@ -9,54 +9,87 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.adapter.MonumentAdapter
+import com.example.myapplication.databinding.ItemListElementBinding
 import com.example.myapplication.model.Monument
 import com.example.myapplication.retrofit.ApiService
-import com.google.gson.Gson
-import kotlinx.android.synthetic.main.item_list_element.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ListElementsActivity : AppCompatActivity() {
-
+    private lateinit var binding: ItemListElementBinding
+    private lateinit var adapter: MonumentAdapter
+    val MonumentList = mutableListOf<Monument>()
+    val BASE_URL = "https://jsonplaceholder.typicode.com/"
+    val BASE_URL2 = "https://t21services.herokuapp.com"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.item_list_element)
+        binding = ItemListElementBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initRecyclerView()
+    }
 
-        //val staticMonument = Monument(1,"nombre","direccion","123.123,234.234","desc","123456789")
+    private fun getRetrofit(): Retrofit {
 
-        var Monuments: MutableList<Monument>? = mutableListOf<Monument>()
-
-        val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://jsonplaceholder.typicode.com/")
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL2)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
-        val service = retrofit.create(ApiService::class.java)
-        service.getAllPoints().enqueue(object: Callback<MutableList<Monument>> {
-            override fun onResponse(
-                call: Call<MutableList<Monument>>,
-                response: Response<MutableList<Monument>>
-            ) {
-                Monuments = (response.body()?.toMutableList())
-                Log.i("TAG_LOGS", Gson().toJson(Monuments))
-                Log.i("TAG_LOGS", "Api reached")
-                initRecycler(Monuments)
-            }
-
-            override fun onFailure(call: Call<MutableList<Monument>>, t: Throwable) {
-               t?.printStackTrace()
-                onAPIFailure()
-            }
-
-        })
-
     }
-    private fun onAPIFailure(){
-        Toast.makeText(this,"Can't reach the APIs info",Toast.LENGTH_SHORT)
+
+    private fun searchAll() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val call = getRetrofit().create(ApiService::class.java).getAllPoints()
+            val monumental = call.body()
+            runOnUiThread {
+                if (call.isSuccessful) {
+                    val objects = monumental ?: emptyList<Monument>()
+                    MonumentList.clear()
+                    MonumentList.addAll(objects as MutableList<Monument>)
+                    adapter.notifyDataSetChanged()
+                    Log.i("LOG_TAG","success")
+                } else {
+                    showError()
+                    Log.i("LOG_TAG","err")
+                }
+            }
+
+        }
+    }
+
+    private fun initRecyclerView() {
+        adapter = MonumentAdapter(MonumentList)
+        binding.rvMonument.layoutManager = LinearLayoutManager(this)
+        binding.rvMonument.adapter = adapter
+    }
+
+    private fun searchByName(query: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val call = getRetrofit().create(ApiService::class.java).getPostById("$query")
+            val monumental = call.body()
+            runOnUiThread {
+                if (call.isSuccessful) {
+                    val objects = monumental ?: emptyList<Monument>()
+                    MonumentList.clear()
+                    MonumentList.addAll(objects as MutableList<Monument>)
+                    adapter.notifyDataSetChanged()
+                } else {
+                    showError()
+                }
+            }
+
+        }
+    }
+
+    private fun showError() {
+        Toast.makeText(this, "An error has ocurred", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onAPIFailure() {
+        Toast.makeText(this, "Can't reach the APIs info", Toast.LENGTH_SHORT)
     }
 
 
@@ -70,15 +103,6 @@ class ListElementsActivity : AppCompatActivity() {
             R.id.nav_go_back -> finish()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    fun initRecycler(recoveredMonuments:MutableList<Monument>?) {
-        val staticMonument = Monument(1,"nombre","direccion","123.123,234.234","desc","123456789")
-        rvMonument.layoutManager = LinearLayoutManager(this)
-        recoveredMonuments?.add(staticMonument)
-        Log.i("tamaño",recoveredMonuments.toString())
-        val adapter = recoveredMonuments?.let { MonumentAdapter(it) }
-        rvMonument.adapter = adapter
     }
 }
 
