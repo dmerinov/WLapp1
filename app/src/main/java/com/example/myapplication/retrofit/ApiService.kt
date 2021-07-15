@@ -1,6 +1,6 @@
 package com.example.myapplication.retrofit
 
-import com.example.myapplication.model.Monument
+import com.example.myapplication.model.MonumentDetailDto
 import com.example.myapplication.model.MonumentResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -12,6 +12,6 @@ interface ApiService {
     fun getAllPoints(): Call<MonumentResponse>
 
     @GET("points/{id}")
-    fun getPostById(@Path("id") id: String): Call<Monument>
+    fun getPostById(@Path("id") id: String): Call<MonumentDetailDto>
 
 }

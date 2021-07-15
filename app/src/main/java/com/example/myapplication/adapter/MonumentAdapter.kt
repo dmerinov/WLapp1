@@ -1,17 +1,24 @@
 package com.example.myapplication.adapter
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.activity.ItemDetailActivity
-import com.example.myapplication.model.Monument
+import com.example.myapplication.model.MonumentDetailDto
+import com.example.myapplication.model.MonumentDto
+import com.example.myapplication.retrofit.ApiService
+import com.example.myapplication.retrofit.RetrofitResource
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.item_monument.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class MonumentAdapter(val monument: MutableList<Monument>) :
+class MonumentAdapter(val items: MutableList<MonumentDto> = mutableListOf()) :
 
     RecyclerView.Adapter<MonumentAdapter.MonumentHolder>() {
 
@@ -22,27 +29,34 @@ class MonumentAdapter(val monument: MutableList<Monument>) :
 
     //draws an item
     override fun onBindViewHolder(holder: MonumentHolder, position: Int) {
-        holder.render(monument[position])
+        holder.render(items[position])
     }
 
     //returns how many element the list has
-    override fun getItemCount(): Int = monument.size
+    override fun getItemCount(): Int = items.size
+
+    fun replaceAll(newItems: List<MonumentDto>){
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
 
     class MonumentHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        fun render(monument: Monument) {
-            view.Monument.text = monument.name
+        fun render(monument: MonumentDto) {
+            view.Monument.text = monument.id + " - " + monument.title
             view.Latitude.text = monument.geocoordinates
 
             view.setOnClickListener {
+
+
                 //you have to provide intent with the context as within the listener the context get lost.
                 val intent = Intent(view.context, ItemDetailActivity::class.java)
-                val gson = Gson()
-                val intentData = gson.toJson(monument)
-                intent.putExtra("EXTRA_MONUMENT", intentData)
+                intent.putExtra("RECEIVING_MONUMENT_ID", monument.id)
                 view.context.startActivity(intent)
             }
 
         }
+
     }
 
 }

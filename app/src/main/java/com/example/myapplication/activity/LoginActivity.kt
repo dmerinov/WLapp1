@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun validate(username: String, password: String) {
         if (username.equals(USER) && password.equals(PASSWORD)) {
-            val intent = Intent(this, ListElementsActivity::class.java)
+            val intent = Intent(this, MonumentsActivity::class.java)
             startActivity(intent)
         } else {
             Toast.makeText(this@LoginActivity, "Incorrect password. Try Again", Toast.LENGTH_LONG)

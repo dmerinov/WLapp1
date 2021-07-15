@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ListElementsActivity" />
+        <activity android:name=".activity.MonumentsActivity" />
         <activity android:name=".activity.ItemDetailActivity" />
         <activity android:name=".activity.LoginActivity">
             <intent-filter>

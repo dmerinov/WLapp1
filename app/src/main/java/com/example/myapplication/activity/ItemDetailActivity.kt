@@ -2,52 +2,75 @@ package com.example.myapplication.activity
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
-import com.example.myapplication.model.Monument
+import com.example.myapplication.model.MonumentDetailDto
+import com.example.myapplication.model.MonumentDto
+import com.example.myapplication.retrofit.ApiService
+import com.example.myapplication.retrofit.RetrofitResource
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_item_detail.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class ItemDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
-
+        initializeUI()
         processItem()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.nav_menu, menu)
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_go_back -> finish()
-        }
-        return super.onOptionsItemSelected(item)
+    private fun initializeUI() {
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun processItem() {
-        val objectMonument = getContent()
-        if (objectMonument != null) {
-            paintItem(objectMonument)
-        }
+        val idReturned = intent.getSerializableExtra("RECEIVING_MONUMENT_ID") as String
+        searchByID(idReturned)
     }
 
-    private fun getContent(): Monument? {
-        val gson = Gson()
-        val jsonMonument = intent.getSerializableExtra("EXTRA_MONUMENT") as String
-        return gson.fromJson(jsonMonument, Monument::class.java)
-    }
-
-    private fun paintItem(objectMonument: Monument) {
+    private fun paintItem(objectMonument: MonumentDetailDto) {
         tvMonumentDesc.text = objectMonument.description
         tvMonumentDesc.movementMethod = ScrollingMovementMethod()
     }
+
+    private fun searchByID(query: String) {
+        val userService: ApiService =
+            RetrofitResource.getRetrofit().create(ApiService::class.java)
+        val result: Call<MonumentDetailDto> = userService.getPostById("$query")
+        lateinit var returnedObject:MonumentDetailDto
+
+        result.enqueue(object : Callback<MonumentDetailDto> {
+            override fun onFailure(call: Call<MonumentDetailDto>, t: Throwable) {
+                Log.i("LOG_TAG", "error")
+            }
+
+            override fun onResponse(
+                call: Call<MonumentDetailDto>,
+                response: Response<MonumentDetailDto>
+            ) {
+                if (response?.isSuccessful) {
+                    Log.i("LOG_TAG", "okey")
+                    if (response.body() != null)
+                        paintItem(response.body()!!)
+
+
+                }
+            }
+        })
+    }
+
 }
