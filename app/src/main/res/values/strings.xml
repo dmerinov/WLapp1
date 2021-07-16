@@ -13,4 +13,5 @@
     <string name="Email">Email: </string>
     <string name="tv_contact">"Contact: "</string>
     <string name="tv_description">Description</string>
+    <string name="id_name_composition">%1$s - %2$s</string>
 </resources>
