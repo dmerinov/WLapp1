@@ -3,16 +3,11 @@ package com.example.myapplication.activity
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.model.MonumentDetailDto
-import com.example.myapplication.model.MonumentDto
 import com.example.myapplication.retrofit.ApiService
 import com.example.myapplication.retrofit.RetrofitResource
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,6 +38,11 @@ class ItemDetailActivity : AppCompatActivity() {
     }
 
     private fun paintItem(objectMonument: MonumentDetailDto) {
+
+        TitleDetail.text = objectMonument.title
+        Address.text = objectMonument.address
+        Email.text = objectMonument.email
+        Contact.text = objectMonument.phone
         tvMonumentDesc.text = objectMonument.description
         tvMonumentDesc.movementMethod = ScrollingMovementMethod()
     }

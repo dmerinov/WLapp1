@@ -44,7 +44,7 @@ class MonumentAdapter(val items: MutableList<MonumentDto> = mutableListOf()) :
     class MonumentHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun render(monument: MonumentDto) {
             view.Monument.text = monument.id + " - " + monument.title
-            view.Latitude.text = monument.geocoordinates
+            view.Coordinates.text = monument.geocoordinates
 
             view.setOnClickListener {
 

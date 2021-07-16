@@ -7,22 +7,98 @@
     tools:context=".activity.ItemDetailActivity">
 
 
-    <ImageView
-        android:id="@+id/imageViewItemDetail"
+    <TextView
+        android:id="@+id/TitleDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:textSize="36sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toTopOf="@id/AddressText"
+        app:layout_constraintBottom_toBottomOf="@id/AddressText"
+        android:paddingTop="20dp" />
+
+    <TextView
+        android:id="@+id/AddressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/TitleDetail"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="10dp"
+        android:text="@string/tv_Address"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/AddressText"
+        app:layout_constraintTop_toTopOf="@id/AddressText"
+        app:layout_constraintBottom_toBottomOf="@id/AddressText"
+        android:paddingLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/EmailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/Address"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="10dp"
+        android:text="@string/Email"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/EmailText"
+        app:layout_constraintTop_toTopOf="@id/EmailText"
+        app:layout_constraintBottom_toBottomOf="@id/EmailText"
+        android:paddingLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/ContactText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/Email"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="10dp"
+        android:text="@string/tv_contact"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/ContactText"
+        app:layout_constraintTop_toTopOf="@id/ContactText"
+        app:layout_constraintBottom_toBottomOf="@id/ContactText"
+        android:paddingLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/DescriptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/Contact"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:text="@string/tv_description"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvMonumentDesc"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:textSize="18sp"
         app:autoSizeTextType="none"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +107,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="0"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewItemDetail"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionText"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
