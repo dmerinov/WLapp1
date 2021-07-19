@@ -7,48 +7,61 @@ import android.text.method.PasswordTransformationMethod
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
+import com.example.myapplication.presenter.LoginPresenter
+import com.example.myapplication.presenter.LoginView
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginView {
 
-    companion object {
-        private const val USER = "usuario"
-        private const val PASSWORD = "123456"
-    }
+    private val presenter: LoginPresenter = LoginPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
         registerListeners()
+        presenter.initialize()
     }
 
     private fun registerListeners() {
-        reset.setOnClickListener { resetFields() }
-        submit.setOnClickListener { validate(username.text.toString(), password.text.toString()) }
+        reset.setOnClickListener { presenter.onResetClick() }
+        submit.setOnClickListener { presenter.onSubmitClick() }
+        checkBox.setOnClickListener { presenter.onCheckboxClick() }
 
-        checkBox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked)
-                password.transformationMethod = HideReturnsTransformationMethod.getInstance()
-            else
-                password.transformationMethod = PasswordTransformationMethod.getInstance()
-        }
     }
 
-    private fun resetFields() {
+    override fun resetFields() {
         username.setText("")
         password.setText("")
     }
 
+    override fun getCheckboxStatus(): Boolean {
+        return checkBox.isChecked
+    }
 
-    private fun validate(username: String, password: String) {
-        if (username.equals(USER) && password.equals(PASSWORD)) {
-            val intent = Intent(this, MonumentsActivity::class.java)
-            startActivity(intent)
-        } else {
-            Toast.makeText(this@LoginActivity, "Incorrect password. Try Again", Toast.LENGTH_LONG)
-                .show()
-        }
+    override fun navigateToMonumentsScreen() {
+        val intent = Intent(this, MonumentsActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun showPassword() {
+        password.transformationMethod = HideReturnsTransformationMethod.getInstance()
+    }
+
+    override fun hidePassword() {
+        password.transformationMethod = PasswordTransformationMethod.getInstance()
+    }
+
+    override fun showLoginError() {
+        Toast.makeText(this@LoginActivity, "Incorrect credentials. Try Again", Toast.LENGTH_LONG)
+            .show()
+    }
+
+    override fun getUser(): String {
+        return username.text.toString()
+    }
+
+    override fun getPassword(): String {
+        return password.text.toString()
     }
 
 }
