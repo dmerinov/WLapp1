@@ -14,17 +14,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class ItemDetailActivity : AppCompatActivity() {
+class MonumentDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
         initializeUI()
         processItem()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
     private fun initializeUI() {
@@ -34,24 +29,22 @@ class ItemDetailActivity : AppCompatActivity() {
 
     private fun processItem() {
         val idReturned = intent.getSerializableExtra("RECEIVING_MONUMENT_ID") as String
-        searchByID(idReturned)
+        getMonumentByID(idReturned)
     }
 
-    private fun paintItem(objectMonument: MonumentDetailDto) {
-
-        TitleDetail.text = objectMonument.title
-        Address.text = objectMonument.address
-        Email.text = objectMonument.email
-        Contact.text = objectMonument.phone
-        tvMonumentDesc.text = objectMonument.description
-        tvMonumentDesc.movementMethod = ScrollingMovementMethod()
+    private fun showMonument(monument: MonumentDetailDto) {
+        titleDetail.text = monument.title
+        address.text = monument.address
+        email.text = monument.email
+        contact.text = monument.phone
+        monumentDescript.text = monument.description
+        monumentDescript.movementMethod = ScrollingMovementMethod()
     }
 
-    private fun searchByID(query: String) {
+    private fun getMonumentByID(query: String) {
         val userService: ApiService =
             RetrofitResource.getRetrofit().create(ApiService::class.java)
         val result: Call<MonumentDetailDto> = userService.getPostById("$query")
-        lateinit var returnedObject:MonumentDetailDto
 
         result.enqueue(object : Callback<MonumentDetailDto> {
             override fun onFailure(call: Call<MonumentDetailDto>, t: Throwable) {
@@ -64,13 +57,14 @@ class ItemDetailActivity : AppCompatActivity() {
             ) {
                 if (response?.isSuccessful) {
                     Log.i("LOG_TAG", "okey")
-                    if (response.body() != null)
-                        paintItem(response.body()!!)
-
-
+                    response.body()?.let { showMonument(it) }
                 }
             }
         })
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 }

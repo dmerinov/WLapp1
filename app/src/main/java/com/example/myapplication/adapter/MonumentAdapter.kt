@@ -46,8 +46,8 @@ class MonumentAdapter(
         }
 
         fun bind(monument: MonumentDto) {
-            itemView.Monument.text = itemView.context.getString(R.string.id_name_composition,monument.id,monument.title)
-            monument.geocoordinates.also { itemView.Coordinates.text = it }
+            itemView.monument.text = itemView.context.getString(R.string.id_name_composition,monument.id,monument.title)
+            monument.geocoordinates.also { itemView.coordinates.text = it }
         }
 
     }

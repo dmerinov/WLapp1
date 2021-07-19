@@ -14,7 +14,7 @@
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
         <activity android:name=".activity.MonumentsActivity" />
-        <activity android:name=".activity.ItemDetailActivity" />
+        <activity android:name=".activity.MonumentDetailActivity" />
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

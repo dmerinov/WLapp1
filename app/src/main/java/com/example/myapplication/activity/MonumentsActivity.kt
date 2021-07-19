@@ -18,7 +18,7 @@ class MonumentsActivity : AppCompatActivity() {
 
     private lateinit var binding: ItemListElementBinding
     private val monumentsAdapter: MonumentAdapter by lazy { MonumentAdapter(){
-        val intent = Intent(this, ItemDetailActivity::class.java)
+        val intent = Intent(this, MonumentDetailActivity::class.java)
         intent.putExtra("RECEIVING_MONUMENT_ID", it.id)
         startActivity(intent)
     } }
