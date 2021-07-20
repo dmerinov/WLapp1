@@ -29,6 +29,11 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     }
 
+    override fun navigateToMonumentsScreen() {
+        val intent = Intent(this, MonumentsActivity::class.java)
+        startActivity(intent)
+    }
+
     override fun resetFields() {
         username.setText("")
         password.setText("")
@@ -36,11 +41,6 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     override fun getCheckboxStatus(): Boolean {
         return checkBox.isChecked
-    }
-
-    override fun navigateToMonumentsScreen() {
-        val intent = Intent(this, MonumentsActivity::class.java)
-        startActivity(intent)
     }
 
     override fun showPassword() {
