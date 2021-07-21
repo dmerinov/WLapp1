@@ -1,24 +1,31 @@
 package com.example.myapplication.presenter
 
-import com.example.myapplication.adapter.MonumentAdapter
 import com.example.myapplication.model.MonumentDto
-import com.example.myapplication.repository.RepositoryInterfaceAllMonuments
 import com.example.myapplication.repository.SourceRepository
 
-class MonumentPresenter(private val view: MonumentView) : RepositoryInterfaceAllMonuments {
-
+class MonumentPresenter(
+    private val view: MonumentView,
+    private val repository: SourceRepository
+) {
 
     fun initialize() {
         getMonuments()
     }
 
-    override fun getMonuments() {
-        SourceRepository.getMonuments(view)
+    private fun getMonuments() {
+        repository.getMonuments(
+            success = {
+                view.showMonuments(it)
+            },
+            error = {
+                println("error getting the response")
+            }
+        )
     }
 
 }
 
 interface MonumentView {
-    fun getAdapter(): MonumentAdapter
+    fun showMonuments(monuments: List<MonumentDto>)
     fun navigateToMonumentDetailScreen(monumentDto: MonumentDto)
 }

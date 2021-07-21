@@ -9,6 +9,7 @@ import com.example.myapplication.databinding.ItemListElementBinding
 import com.example.myapplication.model.MonumentDto
 import com.example.myapplication.presenter.MonumentPresenter
 import com.example.myapplication.presenter.MonumentView
+import com.example.myapplication.repository.SourceRepository
 
 class MonumentsActivity : AppCompatActivity(), MonumentView {
 
@@ -17,7 +18,7 @@ class MonumentsActivity : AppCompatActivity(), MonumentView {
             navigateToMonumentDetailScreen(it) //TODO
         }
     }
-    private val presenter = MonumentPresenter(this)
+    private val presenter = MonumentPresenter(this, SourceRepository)
     private lateinit var binding: ItemListElementBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,14 +43,14 @@ class MonumentsActivity : AppCompatActivity(), MonumentView {
         //nothing to do
     }
 
+    override fun showMonuments(monuments: List<MonumentDto>) {
+        monumentsAdapter.replaceAll(monuments)
+    }
+
     override fun navigateToMonumentDetailScreen(monumentDto: MonumentDto) {
         val intent = Intent(this, MonumentDetailActivity::class.java)
         intent.putExtra("RECEIVING_MONUMENT_ID", monumentDto.id)
         startActivity(intent)
-    }
-
-    override fun getAdapter(): MonumentAdapter {
-        return monumentsAdapter
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -58,6 +59,3 @@ class MonumentsActivity : AppCompatActivity(), MonumentView {
     }
 
 }
-
-
-
