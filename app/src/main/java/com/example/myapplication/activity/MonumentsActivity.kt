@@ -5,22 +5,29 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.adapter.MonumentAdapter
+import com.example.myapplication.data.CommonRepository
+import com.example.myapplication.data.Repository
+import com.example.myapplication.data.network.NetworkDataSource
 import com.example.myapplication.databinding.ItemListElementBinding
 import com.example.myapplication.model.MonumentDto
 import com.example.myapplication.presenter.MonumentPresenter
 import com.example.myapplication.presenter.MonumentView
+import com.example.myapplication.repository.NetworkRepository
 import com.example.myapplication.repository.SourceRepository
 
 class MonumentsActivity : AppCompatActivity(), MonumentView {
 
+    private val presenter = MonumentPresenter(
+        this,
+        repository = CommonRepository(network =NetworkDataSource())
+    )
     private val monumentsAdapter: MonumentAdapter by lazy {
         MonumentAdapter() {
-            navigateToMonumentDetailScreen(it) //TODO
+            presenter.onMonumentClick(it)
         }
     }
-    private val presenter = MonumentPresenter(this, SourceRepository)
-    private lateinit var binding: ItemListElementBinding
 
+    private lateinit var binding: ItemListElementBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ItemListElementBinding.inflate(layoutInflater)

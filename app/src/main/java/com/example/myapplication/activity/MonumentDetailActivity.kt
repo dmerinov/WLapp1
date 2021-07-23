@@ -7,13 +7,17 @@ import com.example.myapplication.R
 import com.example.myapplication.model.MonumentDetailDto
 import com.example.myapplication.presenter.MonumentDetailPresenter
 import com.example.myapplication.presenter.MonumentDetailView
+import com.example.myapplication.repository.NetworkRepository
 import com.example.myapplication.repository.SourceRepository
 import kotlinx.android.synthetic.main.activity_monument_detail.*
 
 
 class MonumentDetailActivity : AppCompatActivity(), MonumentDetailView {
 
-    private val presenter = MonumentDetailPresenter(this, SourceRepository)
+    private val presenter = MonumentDetailPresenter(
+        this,
+        SourceRepository(NetworkRepository())
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

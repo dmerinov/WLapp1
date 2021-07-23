@@ -12,16 +12,9 @@ class MonumentDetailPresenter(
         getMonumentInfo()
     }
 
-     private fun getMonumentInfo() {
+    private fun getMonumentInfo() {
 
-        repository.getMonumentInfo(view.getMonumentId(),
-            success = {
-                view.showMonument(it)
-            },
-            error = {
-                println("an error has occurred while trying to fetch the monument")
-            }
-        )
+        // repository.getMonumentInfo(view.getMonumentId())
     }
 
 

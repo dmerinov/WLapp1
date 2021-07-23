@@ -8,7 +8,6 @@ class LoginPresenter(private val view: LoginView) {
     }
 
     fun initialize() {
-        //nothing to do
     }
 
     fun onResetClick() {

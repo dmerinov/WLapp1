@@ -1,56 +1,48 @@
 package com.example.myapplication.repository
 
-import com.example.myapplication.model.MonumentDetailDto
-import com.example.myapplication.model.MonumentDto
-import com.example.myapplication.model.MonumentResponse
-import com.example.myapplication.presenter.MonumentDetailView
-import com.example.myapplication.presenter.MonumentView
-import com.example.myapplication.retrofit.ApiService
-import com.example.myapplication.retrofit.RetrofitResource
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+class SourceRepository(private val networkR: NetworkRepository) {
 
-object SourceRepository {
+    /* fun getMonuments(): List<MonumentDto> {
+         val list = mutableListOf<MonumentDto>()
+         networkR.getMonuments(
+             success = {
+                list.addAll(it)
+             },
+             error = {
+                 println("error getting the response")
+             })
+         return list
+     }
 
-    fun getMonuments(success: (List<MonumentDto>) -> Unit, error: ()-> Unit) {
-        val userService: ApiService = RetrofitResource.getRetrofit().create(ApiService::class.java)
-        val result: Call<MonumentResponse> = userService.getAllPoints()
+     fun getMonumentInfo(monumentID: String) : MonumentDetailDto {
+         lateinit var monument: MonumentDetailDto
+         networkR.getMonumentsInfo(
+             monumentID,
+             success = {
+             monumentit
+         },
+             error = {
+                 println("error getting the response")
+             }
+         )
+         val userService: ApiService =
+             RetrofitResource.getRetrofit().create(ApiService::class.java)
+         val result: Call<MonumentDetailDto> = userService.getPostById(monumentID)
 
-        result.enqueue(object : Callback<MonumentResponse> {
-            override fun onFailure(call: Call<MonumentResponse>, t: Throwable) {
-                error()
-            }
+         result.enqueue(object : Callback<MonumentDetailDto> {
+             override fun onFailure(call: Call<MonumentDetailDto>, t: Throwable) {
+                 error()
+             }
 
-            override fun onResponse(
-                call: Call<MonumentResponse>,
-                response: Response<MonumentResponse>
-            ) {
-                response.body()?.let { success(it.list) }
-            }
-
-        })
-    }
-
-    fun getMonumentInfo(monumentID: String,success: (MonumentDetailDto) -> Unit,error: () -> Unit) {
-        val userService: ApiService =
-            RetrofitResource.getRetrofit().create(ApiService::class.java)
-        val result: Call<MonumentDetailDto> = userService.getPostById(monumentID)
-
-        result.enqueue(object : Callback<MonumentDetailDto> {
-            override fun onFailure(call: Call<MonumentDetailDto>, t: Throwable) {
-                error()
-            }
-
-            override fun onResponse(
-                call: Call<MonumentDetailDto>,
-                response: Response<MonumentDetailDto>
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.let { success(it) }
-                }
-            }
-        })
-    }
+             override fun onResponse(
+                 call: Call<MonumentDetailDto>,
+                 response: Response<MonumentDetailDto>
+             ) {
+                 if (response.isSuccessful) {
+                     response.body()?.let { success(it) }
+                 }
+             }
+         })
+     }*/
 
 }
