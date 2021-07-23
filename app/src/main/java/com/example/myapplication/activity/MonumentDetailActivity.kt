@@ -4,21 +4,31 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
+import com.example.myapplication.data.CommonRepository
+import com.example.myapplication.data.Repository
+import com.example.myapplication.data.local.LocalDataSource
+import com.example.myapplication.data.network.NetworkDataSource
 import com.example.myapplication.model.MonumentDetailDto
 import com.example.myapplication.presenter.MonumentDetailPresenter
 import com.example.myapplication.presenter.MonumentDetailView
-import com.example.myapplication.repository.SourceRepository
+import com.example.myapplication.presenter.MonumentPresenter
 import kotlinx.android.synthetic.main.activity_monument_detail.*
 
 
 class MonumentDetailActivity : AppCompatActivity(), MonumentDetailView {
 
-    private val presenter = MonumentDetailPresenter(this, SourceRepository)
+    private lateinit var presenter : MonumentDetailPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_monument_detail)
         initializeUI()
+        MonumentDetailPresenter(
+            this,
+            repository = CommonRepository(
+                network = NetworkDataSource(),
+                local = LocalDataSource(this@MonumentDetailActivity)
+            )).also { presenter = it }
         presenter.initialize()
     }
 

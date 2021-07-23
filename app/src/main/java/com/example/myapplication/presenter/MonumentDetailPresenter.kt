@@ -1,25 +1,25 @@
 package com.example.myapplication.presenter
 
+import com.example.myapplication.data.Repository
 import com.example.myapplication.model.MonumentDetailDto
-import com.example.myapplication.repository.SourceRepository
 
 class MonumentDetailPresenter(
     private val view: MonumentDetailView,
-    private val repository: SourceRepository
+    private val repository: Repository
 ) {
 
     fun initialize() {
         getMonumentInfo()
     }
 
-     private fun getMonumentInfo() {
+    private fun getMonumentInfo() {
 
-        repository.getMonumentInfo(view.getMonumentId(),
+        repository.getDetailMonument(view.getMonumentId(),
             success = {
                 view.showMonument(it)
             },
             error = {
-                println("an error has occurred while trying to fetch the monument")
+                println("error while recovering the detailed monument")
             }
         )
     }
