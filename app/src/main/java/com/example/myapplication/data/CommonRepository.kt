@@ -25,6 +25,7 @@ class CommonRepository(private val network: Network, private val local: Local) :
                     })
             }
         )
+
     }
 
     override fun getDetailMonument(
@@ -46,6 +47,5 @@ class CommonRepository(private val network: Network, private val local: Local) :
                         error()
                     })
             })
-
     }
 }
