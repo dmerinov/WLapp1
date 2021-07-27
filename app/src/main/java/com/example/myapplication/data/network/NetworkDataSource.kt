@@ -3,8 +3,8 @@ package com.example.myapplication.data.network
 import com.example.myapplication.model.MonumentDetailDto
 import com.example.myapplication.model.MonumentDto
 import com.example.myapplication.model.MonumentResponse
-import com.example.myapplication.retrofit.ApiService
-import com.example.myapplication.retrofit.RetrofitResource
+import com.example.myapplication.data.retrofit.ApiService
+import com.example.myapplication.data.retrofit.RetrofitResource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

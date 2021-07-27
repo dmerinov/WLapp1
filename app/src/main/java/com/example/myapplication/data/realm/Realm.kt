@@ -1,9 +1,9 @@
-package com.example.myapplication.data.local
+package com.example.myapplication.data.realm
 
 import com.example.myapplication.model.MonumentDetailDto
 import com.example.myapplication.model.MonumentDto
 
-interface Local {
+interface Realm {
     fun hasMonuments(): Boolean
     fun getMonuments(): List<MonumentDto>
     fun setMonuments(monuments: List<MonumentDto>)
