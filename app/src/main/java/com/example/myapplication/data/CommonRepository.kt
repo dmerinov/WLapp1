@@ -8,24 +8,25 @@ import com.example.myapplication.model.MonumentDto
 class CommonRepository(private val network: Network, private val local: Local) : Repository {
     override fun getMonuments(success: (List<MonumentDto>) -> Unit, error: () -> Unit) {
 
-        local.getMonuments(
+        network.getMonuments(
             success = {
-                println("list recovered successfully from local")
+                local.setMonuments(it)
                 success(it)
             },
             error = {
-                println("couldn't load data from local, switching to network")
-                network.getMonuments(
-                    success = {
-                        local.saveMonuments(it)
-                        success(it)
-                    },
-                    error = {
+                if (local.hasMonuments()) {
+                    val monuments = local.getMonuments()
+                    if (monuments.isNotEmpty()) {
+                        success(monuments)
+                    } else {
                         error()
-                    })
+                    }
+                } else {
+                    error()
+                }
+
             }
         )
-
     }
 
     override fun getDetailMonument(
@@ -33,19 +34,22 @@ class CommonRepository(private val network: Network, private val local: Local) :
         success: (MonumentDetailDto) -> Unit,
         error: () -> Unit
     ) {
-        local.getDetailMonument(id,
+
+        network.getDetailMonument(
+            id = id,
             success = {
+                local.setMonumentDetail(it)
                 success(it)
-            }, error = {
-                println("couldn't load detail data from local, switching to network")
-                network.getDetailMonument(id,
-                    success = {
-                        local.saveDetailMonument(it)
-                        success(it)
-                    },
-                    error = {
-                        error()
-                    })
-            })
+            },
+            error = {
+                if (local.hasMonumentDetail(id)) {
+                    val detailMonument = local.getMonumentDetail(id)
+                    success(detailMonument)
+                } else {
+                    error()
+                }
+
+            }
+        )
     }
 }

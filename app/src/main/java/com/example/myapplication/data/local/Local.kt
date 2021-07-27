@@ -4,8 +4,11 @@ import com.example.myapplication.model.MonumentDetailDto
 import com.example.myapplication.model.MonumentDto
 
 interface Local {
-    fun getMonuments(success: (List<MonumentDto>) -> Unit, error: () -> Unit)
-    fun getDetailMonument(id: String, success: (MonumentDetailDto) -> Unit, error: () -> Unit)
-    fun saveMonuments(monutments: List<MonumentDto>)
-    fun saveDetailMonument(monument: MonumentDetailDto)
+    fun hasMonuments(): Boolean
+    fun getMonuments(): List<MonumentDto>
+    fun setMonuments(monuments: List<MonumentDto>)
+
+    fun hasMonumentDetail(id: String): Boolean
+    fun getMonumentDetail(id: String): MonumentDetailDto
+    fun setMonumentDetail(monument: MonumentDetailDto)
 }
