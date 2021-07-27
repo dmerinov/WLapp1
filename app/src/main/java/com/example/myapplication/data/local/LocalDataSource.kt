@@ -7,9 +7,9 @@ import com.google.gson.Gson
 
 class LocalDataSource(val context: Context) : Local {
 
-    val PREFS = "DB_PREFERENCES"
+
     private val MONUMENTLIST = "MONUMENT_LIST"
-    val storage = context.getSharedPreferences(PREFS, 0)
+    val storage = context.getSharedPreferences(MONUMENTLIST, 0)
 
 
     override fun getMonuments(success: (List<MonumentDto>) -> Unit, error: () -> Unit) {
@@ -27,13 +27,18 @@ class LocalDataSource(val context: Context) : Local {
         success: (MonumentDetailDto) -> Unit,
         error: () -> Unit
     ) {
+        val gson = Gson()
+        val jsonContent = storage.getString(MONUMENTLIST + "${id}", "")
         if (storage.contains(MONUMENTLIST)) {
-            success(
-                getSavedMonumentByID(id)
-            )
-        } else {
-            error()
-        }
+
+                if (jsonContent.equals("")) {
+                println("THE MONUMENT COULD NOT BE RECOVERED")
+                    error()
+            } else {
+                success(gson.fromJson(jsonContent, MonumentDetailDto::class.java))
+                println("monument returned from local")
+            }
+        } 
     }
 
     override fun saveMonuments(monuments: List<MonumentDto>) {
@@ -64,13 +69,5 @@ class LocalDataSource(val context: Context) : Local {
             println("list returned from local")
         }
         return list
-    }
-
-    private fun getSavedMonumentByID(id: String): MonumentDetailDto {
-        val jsonContent = storage.getString(MONUMENTLIST + "${id}", "")
-        val gson = Gson()
-        var monument: MonumentDetailDto = gson.fromJson(jsonContent, MonumentDetailDto::class.java)
-        println("monument returned from local")
-        return monument
     }
 }
