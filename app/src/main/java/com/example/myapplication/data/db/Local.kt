@@ -1,14 +1,16 @@
-package com.example.myapplication.data.realm
+package com.example.myapplication.data.db
 
 import com.example.myapplication.model.MonumentDetailDto
+import com.example.myapplication.model.MonumentDetailVO
 import com.example.myapplication.model.MonumentDto
+import com.example.myapplication.model.MonumentVO
 
-interface Realm {
+interface Local {
     fun hasMonuments(): Boolean
-    fun getMonuments(): List<MonumentDto>
+    fun getMonuments(): List<MonumentVO>
     fun setMonuments(monuments: List<MonumentDto>)
 
     fun hasMonumentDetail(id: String): Boolean
-    fun getMonumentDetail(id: String): MonumentDetailDto
+    fun getMonumentDetail(id: String): MonumentDetailVO
     fun setMonumentDetail(monument: MonumentDetailDto)
 }

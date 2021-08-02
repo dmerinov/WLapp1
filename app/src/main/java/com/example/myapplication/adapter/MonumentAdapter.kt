@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.model.MonumentDto
+import com.example.myapplication.model.MonumentDomainModel
 import kotlinx.android.synthetic.main.item_monument.view.*
 
 class MonumentAdapter(
-    private val items: MutableList<MonumentDto> = mutableListOf(),
-    private val onItemClicked: (MonumentDto) -> Unit
+    private val items: MutableList<MonumentDomainModel> = mutableListOf(),
+    private val onItemClicked: (MonumentDomainModel) -> Unit
 ) :
     RecyclerView.Adapter<MonumentAdapter.MonumentHolder>() {
 
@@ -29,7 +29,7 @@ class MonumentAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun replaceAll(newItems: List<MonumentDto>) {
+    fun replaceAll(newItems: List<MonumentDomainModel>) {
         items.clear()
         items.addAll(newItems)
         notifyDataSetChanged()
@@ -45,7 +45,7 @@ class MonumentAdapter(
             }
         }
 
-        fun bind(monument: MonumentDto) {
+        fun bind(monument: MonumentDomainModel) {
             itemView.monument.text =
                 itemView.context.getString(
                     R.string.id_name_composition,

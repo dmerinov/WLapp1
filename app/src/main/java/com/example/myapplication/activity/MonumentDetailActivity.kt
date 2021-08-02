@@ -5,19 +5,18 @@ import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 import com.example.myapplication.data.CommonRepository
-import com.example.myapplication.data.Repository
-import com.example.myapplication.data.local.LocalDataSource
+import com.example.myapplication.data.db.RealmDataSource
 import com.example.myapplication.data.network.NetworkDataSource
-import com.example.myapplication.model.MonumentDetailDto
+import com.example.myapplication.data.preferences.CommonPreferences
+import com.example.myapplication.model.MonumentDomainDetailModel
 import com.example.myapplication.presenter.MonumentDetailPresenter
 import com.example.myapplication.presenter.MonumentDetailView
-import com.example.myapplication.presenter.MonumentPresenter
 import kotlinx.android.synthetic.main.activity_monument_detail.*
 
 
 class MonumentDetailActivity : AppCompatActivity(), MonumentDetailView {
 
-    private lateinit var presenter : MonumentDetailPresenter
+    private lateinit var presenter: MonumentDetailPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +26,12 @@ class MonumentDetailActivity : AppCompatActivity(), MonumentDetailView {
             this,
             repository = CommonRepository(
                 network = NetworkDataSource(),
-                local = LocalDataSource(this@MonumentDetailActivity)
-            )).also { presenter = it }
+                prefs = CommonPreferences(this@MonumentDetailActivity),
+                realm = RealmDataSource(this@MonumentDetailActivity)
+            )
+        ).also { presenter = it }
         presenter.initialize()
+        registerListeners()
     }
 
     private fun initializeUI() {
@@ -37,16 +39,23 @@ class MonumentDetailActivity : AppCompatActivity(), MonumentDetailView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    private fun registerListeners() {
+        isFavourite.setOnCheckedChangeListener { buttonView, isChecked ->
+            presenter.onFavouriteClicked(isChecked)
+        }
+    }
+    
     override fun getMonumentId(): String = intent.getStringExtra("RECEIVING_MONUMENT_ID")
         ?: throw IllegalArgumentException("Activity needs a monument id")
 
-    override fun showMonument(mMonumentDto: MonumentDetailDto) {
+    override fun showMonument(mMonumentDto: MonumentDomainDetailModel) {
         titleDetail.text = mMonumentDto.title
         address.text = mMonumentDto.address
         email.text = mMonumentDto.email
         contact.text = mMonumentDto.phone
         monumentDescript.text = mMonumentDto.description
         monumentDescript.movementMethod = ScrollingMovementMethod()
+        isFavourite.isChecked = mMonumentDto.isFavourite
     }
 
     override fun onSupportNavigateUp(): Boolean {

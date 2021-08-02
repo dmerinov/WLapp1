@@ -1,7 +1,7 @@
 package com.example.myapplication.presenter
 
 import com.example.myapplication.data.Repository
-import com.example.myapplication.model.MonumentDetailDto
+import com.example.myapplication.model.MonumentDomainDetailModel
 
 class MonumentDetailPresenter(
     private val view: MonumentDetailView,
@@ -24,10 +24,26 @@ class MonumentDetailPresenter(
         )
     }
 
+    fun onFavouriteClicked(isChecked: Boolean) {
+        if (isChecked) {
+            addFavourite(view.getMonumentId())
+        } else {
+            removeFavourite(view.getMonumentId())
 
+        }
+
+    }
+
+    private fun removeFavourite(id: String) {
+        repository.removeFavourite(id)
+    }
+
+    private fun addFavourite(id: String) {
+        repository.addFavourite(id)
+    }
 }
 
 interface MonumentDetailView {
     fun getMonumentId(): String
-    fun showMonument(mMonumentDto: MonumentDetailDto)
+    fun showMonument(mMonumentDto: MonumentDomainDetailModel)
 }
