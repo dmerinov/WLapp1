@@ -9,10 +9,10 @@ open class MonumentVO(
     open var title: String = "title"
 ) : RealmObject()
 
-open class RealmMonumentDBModel(
-    @PrimaryKey open var jsonID: Int = -1,
-    open var jsonString: String = "jsonS"
-) : RealmObject()
+//open class RealmMonumentDBModel(
+//    @PrimaryKey open var jsonID: Int = -1,
+//    open var jsonString: String = "jsonS"
+//) : RealmObject()
 
 open class MonumentDetailVO(
     @PrimaryKey open var id: String = "id",
@@ -25,7 +25,7 @@ open class MonumentDetailVO(
     open var transport: String = "transport"
 ) : RealmObject()
 
-open class RealmMonumentDetailDBModel(
-    @PrimaryKey open var jsonID: Int = -1,
-    open var jsonDetailID: String = "jsonSDet"
-) : RealmObject()
+//open class RealmMonumentDetailDBModel(
+//    @PrimaryKey open var jsonID: Int = -1,
+//    open var jsonDetailID: String = "jsonSDet"
+//) : RealmObject()

@@ -3,11 +3,13 @@ package com.example.myapplication.data.db
 import android.content.Context
 import com.example.myapplication.mapper.toMonumentDetailVO
 import com.example.myapplication.mapper.toMonumentVO
-import com.example.myapplication.model.*
+import com.example.myapplication.model.MonumentDetailDto
+import com.example.myapplication.model.MonumentDetailVO
+import com.example.myapplication.model.MonumentDto
+import com.example.myapplication.model.MonumentVO
 import com.google.gson.Gson
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import org.bson.types.ObjectId
 
 class RealmDataSource(context: Context) : Local {
 
@@ -36,8 +38,8 @@ class RealmDataSource(context: Context) : Local {
 
 
     override fun hasMonuments(): Boolean {
-        val realmList = backgroundThreadRealm.where(RealmMonumentDBModel::class.java)
-            .equalTo("RealmJsonID", ObjectId.get()).findFirst()
+        val realmList = backgroundThreadRealm.where(MonumentVO::class.java)
+            .findAll()
         println("Fetched object by primary key: $")
         return realmList != null
     }
@@ -45,17 +47,12 @@ class RealmDataSource(context: Context) : Local {
     override fun getMonuments(): List<MonumentVO> {
 
         var returnableObject = mutableListOf<MonumentVO>()
-        val realmList = backgroundThreadRealm.where(RealmMonumentDBModel::class.java)
-            .equalTo("RealmJsonID", ObjectId.get()).findFirst()
-        println("Fetched object by primary key: $")
+        val realmList = backgroundThreadRealm.where(MonumentVO::class.java)
+            .findAll()
 
         if (realmList != null) {
-            returnableObject.addAll(
-                gson.fromJson(
-                    realmList.jsonString,
-                    Array<MonumentVO>::class.java
-                ).toList()
-            )
+            returnableObject.addAll(backgroundThreadRealm.copyFromRealm(realmList))
+
         } else {
             returnableObject.addAll(listOf(MonumentVO("-1", "-1", "empty object")))
         }
@@ -64,40 +61,29 @@ class RealmDataSource(context: Context) : Local {
     }
 
     override fun setMonuments(monuments: List<MonumentDto>) {
-        var realmList = mutableListOf<MonumentVO>()
         val it = monuments.iterator()
         while (it.hasNext()) {
-            realmList.add(it.next().toMonumentVO())
-        }
-//        realmList.map {
-//            showMonument(it)
-//        }
-        val jsonString = gson.toJson(realmList)
-        backgroundThreadRealm.executeTransaction { transactionRealm ->
-            transactionRealm.copyToRealmOrUpdate(RealmMonumentDBModel(1, jsonString))
+            backgroundThreadRealm.executeTransaction { transactionRealm ->
+                transactionRealm.copyToRealmOrUpdate(it.next().toMonumentVO())
+            }
         }
 
     }
 
     override fun hasMonumentDetail(id: String): Boolean {
-        val realmList = backgroundThreadRealm.where(RealmMonumentDBModel::class.java)
-            .equalTo(getMonumentDetailId(id), ObjectId.get()).findFirst()
+        val realmList = backgroundThreadRealm.where(MonumentDetailVO::class.java)
+            .findAll()
         println("Fetched object by primary key: $")
         return realmList != null
     }
 
     override fun getMonumentDetail(id: String): MonumentDetailVO {
         var returnableObject = MonumentDetailVO()
-        val fetchedObject = backgroundThreadRealm.where(RealmMonumentDetailDBModel::class.java)
-            .equalTo(getMonumentDetailId(id), ObjectId.get()).findFirst()
-        println("Fetched object by primary key: $")
+        val fetchedObject = backgroundThreadRealm.where(MonumentDetailVO::class.java)
+            .equalTo("id", id).findFirst()
 
         if (fetchedObject != null) {
-            returnableObject =
-                gson.fromJson(
-                    getMonumentDetailId(id),
-                    MonumentDetailVO::class.java
-                )
+            returnableObject = backgroundThreadRealm.copyFromRealm(fetchedObject)
 
         }
         println(returnableObject)
@@ -106,20 +92,16 @@ class RealmDataSource(context: Context) : Local {
 
     override fun setMonumentDetail(monument: MonumentDetailDto) {
         var realmMonument = monument.toMonumentDetailVO()
-        println(realmMonument)
-        val jsonString = gson.toJson(realmMonument)
+        showMonument(realmMonument)
         backgroundThreadRealm.executeTransaction { transactionRealm ->
             transactionRealm.copyToRealmOrUpdate(
-                RealmMonumentDBModel(
-                    realmMonument.id.toInt(),
-                    jsonString
-                )
+                realmMonument
             )
         }
 
     }
 
-    private fun showMonument(monument: MonumentVO) {
+    private fun showMonument(monument: MonumentDetailVO) {
         println("id: ${monument.id}")
         println("title: ${monument.title}")
         println("coord: ${monument.geocoordinates}")
